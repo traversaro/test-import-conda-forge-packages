@@ -11,10 +11,11 @@ on:
 
 jobs:
   build:
-    name: '[${{ matrix.os }}@conda]'
+    name: '[${{ matrix.os }}@build:${{ matrix.ipopt_build_number }}@conda]'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        ipopt_build_number: [4,5,6,7]
         os: [ubuntu-latest, windows-2019, macos-12, macos-14]
       fail-fast: false
 
@@ -28,5 +29,6 @@ jobs:
     - name: Check install
       shell: bash -l {0}
       run: |
+        micromamba install ipopt=3.14.16=*_${{ matrix.ipopt_build_number }}
         python -c "import idyntree"
         python -c "import cyipopt"
