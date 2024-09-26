@@ -31,5 +31,6 @@ jobs:
       run: |
         micromamba install ipopt=3.14.16=*_${{ matrix.ipopt_build_number }}
         micromamba list
+        micromamba info
         python -c "import idyntree"
         python -c "import cyipopt"
