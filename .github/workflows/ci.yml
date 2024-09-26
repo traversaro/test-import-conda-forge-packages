@@ -1,0 +1,32 @@
+name: C++ CI Workflow with dependencies installed via conda
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+  # * is a special character in YAML so you have to quote this string
+  # Execute a "nightly" build at 2 AM UTC
+  - cron:  '0 2 * * *'
+
+jobs:
+  build:
+    name: '[${{ matrix.os }}@conda]'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-2019, macos-12, macos-14]
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: mamba-org/setup-micromamba@v1
+      with:
+        environment-file: ci_env.yml
+
+    - name: Check install
+      shell: bash -l {0}
+      run: |
+        python -c "import idyntree"
+        python -c "import cyipopt"
