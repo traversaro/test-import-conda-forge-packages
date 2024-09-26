@@ -33,8 +33,3 @@ jobs:
         python -c "import idyntree"
         python -c "import cyipopt"
 
-    - name: Check env
-      shell: bash -l {0}
-      run: |
-        micromamba list
-        micromamba info
